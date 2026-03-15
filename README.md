@@ -1,3 +1,39 @@
-<img width="1536" height="1024" alt="medium_cover" src="https://github.com/user-attachments/assets/13166dce-eabb-4f18-83b9-d583fbc9642a" />
+# Explain It 🧠
 
-https://medium.com/@shibin_sv/from-2-to-millions-building-an-android-explain-app-with-deepseek-api-9d7e223cc831
+**Explain It** is an Android application that simplifies complex topics into easy-to-understand explanations — like you're explaining something to a 10-year-old.
+
+The goal of the app is to help users **learn faster by breaking down complicated ideas into simple language**.
+
+---
+
+## ✨ Features
+
+* 🧠 Explain complex topics in simple language
+* 📚 Easy-to-read explanations
+* ⚡ Fast and minimal UI
+* 📱 Built fully with modern Android tools
+* 🎯 Focused on learning and clarity
+
+---
+
+## 🛠 Tech Stack
+
+* **Kotlin**
+* **Jetpack Compose**
+* **Material 3**
+* **Android Architecture Components**
+
+---
+
+## 📷 Screenshots
+
+
+---
+
+## 🎯 Goal of the Project
+
+The aim of **Explain It** is to make learning simple by breaking down complicated concepts into clear, easy explanations.
+
+This project is also built as a **learning exercise in modern Android development with Jetpack Compose.**
+
+---
