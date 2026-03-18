@@ -10,18 +10,20 @@ class ExplainRepository @Inject constructor(
     private val api: ApiInterface
 ) {
 
+    companion object {
+        private const val SYSTEM_MESSAGE =
+            "You are a helpful assistant that explains complex topics simply and clearly to children."
+
+        private const val USER_MESSAGE_PREFIX =
+            "Explain like I'm 10 years old in simple words with examples: "
+    }
+
     suspend fun explain(question: String): String {
         return try {
 
             val messages = listOf(
-                Message(
-                    role = "system",
-                    content = "You are a helpful assistant that explains complex topics simply."
-                ),
-                Message(
-                    role = "user",
-                    content = "Explain like I'm 10 years old: $question"
-                )
+                Message(role = "system", content = SYSTEM_MESSAGE),
+                Message(role = "user", content = USER_MESSAGE_PREFIX + question)
             )
 
             val request = ChatRequest(

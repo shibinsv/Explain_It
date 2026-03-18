@@ -1,11 +1,15 @@
 package explain.it.im10.ui.composables
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.animateScrollBy
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -17,13 +21,18 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Color.Companion.White
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.shibin.spendly.ui.theme.AccentBlue
+import com.shibin.spendly.ui.theme.ChipBg
+import com.shibin.spendly.ui.theme.ChipBorder
+import com.shibin.spendly.ui.theme.ChipText
 import kotlinx.coroutines.delay
+
 
 val suggestionPool = listOf(
     "Why is the sky blue?",
@@ -128,44 +137,73 @@ val suggestionPool = listOf(
 )
 
 @Composable
-fun SuggestionsView(onClick: (String) -> Unit) {
-
-    val suggestionPool = remember { suggestionPool } // your big list
-    var suggestions by remember { mutableStateOf(suggestionPool.shuffled().take(10)) }
-
+fun SuggestionsView(
+    modifier: Modifier = Modifier,      // added so HomeView can position it
+    onClick: (String) -> Unit
+) {
+    var suggestions by remember { mutableStateOf(suggestionPool.shuffled().take(15)) }
     val listState = rememberLazyListState()
     var isAutoScroll by remember { mutableStateOf(true) }
 
-    LazyRow(
-        state = listState, horizontalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
-        items(suggestions) { suggestion ->
-            SuggestionChip(suggestion) {
-                isAutoScroll = false
-                onClick(suggestion)
-            }
-        }
-    }
-
+    // Pause auto-scroll when user interacts
     LaunchedEffect(isAutoScroll) {
         if (!isAutoScroll) return@LaunchedEffect
         while (true) {
-            listState.animateScrollBy(2f)
-            delay(16) // ~60fps
+            listState.animateScrollBy(1.5f)   // slightly slower — less dizzying
+            delay(16)
+        }
+    }
+
+    // Seamless loop — reshuffle when near end
+    LaunchedEffect(listState.firstVisibleItemIndex) {
+        if (listState.firstVisibleItemIndex >= suggestions.size - 5) {
+            suggestions = suggestionPool.shuffled().take(15)
+        }
+    }
+
+    LazyRow(
+        state = listState,
+        modifier = modifier,
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        contentPadding = PaddingValues(horizontal = 4.dp)
+    ) {
+        items(suggestions, key = { it }) { suggestion ->
+            SuggestionChip(
+                text = suggestion,
+                onClick = {
+                    isAutoScroll = false
+                    onClick(suggestion)
+                }
+            )
         }
     }
 }
 
-
 @Composable
 fun SuggestionChip(text: String, onClick: () -> Unit) {
-    Box(
+    Row(
         modifier = Modifier
-            .clip(RoundedCornerShape(25.dp))
-            .background(Color.DarkGray)
-            .padding(5.dp)
-            .clickable { onClick() },
+            .clip(RoundedCornerShape(20.dp))
+            .background(ChipBg)
+            .border(1.dp, ChipBorder, RoundedCornerShape(20.dp))
+            .clickable { onClick() }
+            .padding(horizontal = 12.dp, vertical = 8.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(6.dp)
     ) {
-        Text(text, color = White, fontSize = 12.sp)
+        // Accent dot — gives a subtle visual anchor
+        Box(
+            modifier = Modifier
+                .size(5.dp)
+                .clip(RoundedCornerShape(3.dp))
+                .background(AccentBlue)
+        )
+        Text(
+            text = text,
+            color = ChipText.copy(alpha = 0.75f),
+            fontSize = 12.sp,
+            fontWeight = FontWeight.Normal,
+            maxLines = 1
+        )
     }
 }
