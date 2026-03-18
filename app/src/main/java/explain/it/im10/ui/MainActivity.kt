@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
+import com.shibin.spendly.ui.theme.BgDeep
+import com.shibin.spendly.ui.theme.Im10Theme
 import dagger.hilt.android.AndroidEntryPoint
 import explain.it.im10.ui.views.HomeView
 
@@ -15,15 +17,15 @@ import explain.it.im10.ui.views.HomeView
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        enableEdgeToEdge()
-        enableEdgeToEdge(
-            statusBarStyle = androidx.activity.SystemBarStyle.dark(android.graphics.Color.BLACK),
-            navigationBarStyle = androidx.activity.SystemBarStyle.dark(android.graphics.Color.BLACK)
-        )
+        enableEdgeToEdge()
         setContent {
-            Scaffold() {innPadding ->
-                Box(modifier = Modifier.padding(innPadding)){
-                    HomeView()
+            Im10Theme {
+                Scaffold(
+                    containerColor = BgDeep
+                ) { innPadding ->
+                    Box(modifier = Modifier.padding(innPadding)) {
+                        HomeView()
+                    }
                 }
             }
         }
