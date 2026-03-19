@@ -26,6 +26,8 @@ The goal of the app is to help users **learn faster by breaking down complicated
 ---
 
 ## 📷 Screenshots
+<img width="200" height="500" alt="image" src="https://github.com/user-attachments/assets/0ffc13cb-d9d0-4cd1-b3bb-75a39716ba41" />
+<img width="200" height="500" alt="image" src="https://github.com/user-attachments/assets/31f595be-6bcb-44d6-9e83-ac5a286b6041" />
 
 
 ---
